@@ -1,0 +1,122 @@
+/* scroll bar */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	background-color: white;
+}
+::-webkit-scrollbar-thumb {
+	background-color: #dddee0;
+	border-radius: 20px;
+	box-shadow: inset 0 0 0 white;
+}
+
+/* page switch animation */
+.fade-enter {
+	opacity: 0;
+	transform: translateX(-30px);
+}
+.fade-enter-active,
+.fade-exit-active {
+	opacity: 1;
+	transition: all 0.2s ease-out;
+	transform: translateX(0);
+}
+.fade-exit {
+	opacity: 0;
+	transform: translateX(30px);
+}
+
+/* global style */
+.content-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	.text {
+		margin: 30px 0;
+		font-size: 23px;
+		font-weight: 700;
+		color: #585858;
+		a {
+			text-decoration: underline !important;
+		}
+	}
+}
+
+/* 弹性布局 */
+.flc {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+.frc {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+.fsc {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.fcc {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* 文字省略 */
+.shengluehao {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.shengluehaoline1 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+}
+.shengluehaoline2 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
+.shengluehaoline3 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+
+/* antd自定义的表单项加上红心 */
+.Form_Item_self_hongxin {
+	.ant-form-item-label > label::before {
+		display: inline-block;
+		margin-right: 4px;
+		font-family: SimSun, sans-serif;
+		font-size: 14px;
+		line-height: 1;
+		color: #ff4d4f;
+		content: '*';
+	}
+}
+
+/* 附件单元格中多个附件 */
+.table_file_cell + .table_file_cell {
+	margin-left: 5px;
+}
+
+/* 重写antd的一些样式 */
+.ant-btn + .ant-btn {
+	margin-left: 10px;
+}
+.ant-btn {
+	&.yellow {
+		background-color: #ffba00;
+		border-color: #ffba00;
+	}
+}

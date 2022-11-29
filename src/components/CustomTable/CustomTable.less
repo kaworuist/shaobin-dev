@@ -1,0 +1,37 @@
+.CustomTable_con {
+	/* 表格上部筛选栏 */
+	.search_con {
+		margin-bottom: 10px;
+		border-bottom: 1px solid #dddee0;
+		> .ant-form {
+			@label_width: 72px;
+			.ant-form-item {
+				width: 25%;
+				padding-right: 15px;
+				margin-right: 0;
+				margin-bottom: 15px;
+				&.w50 {
+					width: 50%;
+				}
+				&.w100 {
+					width: 100%;
+				}
+				.ant-form-item-label {
+					width: @label_width;
+				}
+				.ant-form-item-control {
+					width: calc(100% - @label_width);
+					overflow: hidden;
+				}
+				.ant-picker-range {
+					width: 100%;
+				}
+			}
+		}
+	}
+	.table_btns_con {
+		button {
+			margin-bottom: 10px;
+		}
+	}
+}

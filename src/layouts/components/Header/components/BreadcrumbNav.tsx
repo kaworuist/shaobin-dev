@@ -2,10 +2,12 @@ import { Breadcrumb } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { HOME_URL } from '@/config/config';
 import { connect } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/redux-ts/hook';
 
-const BreadcrumbNav = (props: any) => {
+export default (props: any) => {
 	const { pathname } = useLocation();
-	const breadcrumbList = props.breadcrumbList[pathname] || [];
+	const breadcrumbList = useAppSelector(state => state.breadcrumb.breadcrumbList) || []
+	// const breadcrumbList = props.breadcrumbList[pathname] || [];
 
 	return (
 		<Breadcrumb>
@@ -17,5 +19,4 @@ const BreadcrumbNav = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => state.breadcrumb;
-export default connect(mapStateToProps)(BreadcrumbNav);
+// const mapStateToProps = (state: any) => state.breadcrumb;

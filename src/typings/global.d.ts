@@ -1,3 +1,4 @@
+
 // * Menu
 declare namespace Menu {
 	interface MenuOptions {

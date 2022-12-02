@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Spin } from 'antd';
 import { findAllBreadcrumb, getOpenKeys, handleRouter, searchRoute } from '@/utils/util';
-import { setMenuList } from '@/redux/modules/menu/action';
-import { setBreadcrumbList } from '@/redux/modules/breadcrumb/action';
-import { setAuthRouter } from '@/redux/modules/auth/action';
 // import { getMenuList } from "@/api/modules/login";
 import { getLocalMenu } from '@/routers';
 // import { getMenuList as getMenuListLocal } from "@/api/localTestData/menu-list.js";
@@ -14,12 +11,17 @@ import * as Icons from '@ant-design/icons';
 import Logo from './components/Logo';
 import './index.less';
 import IconFont from '@/components/IconFont';
+import { useAppDispatch, useAppSelector } from '@/redux-ts/hook';
+import { setBreadcrumbList } from '@/redux-ts/breadcrumb.slice';
+import { setAuthRouter } from '@/redux-ts/auth.slice';
 
-const LayoutMenu = (props: any) => {
+export default (props: any) => {
 	const { pathname } = useLocation();
-	const { isCollapse, setBreadcrumbList, setAuthRouter, setMenuList: setMenuListAction } = props;
+	// const { isCollapse, setBreadcrumbList, setAuthRouter, setMenuList: setMenuListAction } = props;
 	const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
 	const [openKeys, setOpenKeys] = useState<string[]>([]);
+	const isCollapse = useAppSelector(state => state.menu.isCollapse)
+	const dispatch = useAppDispatch()
 
 	// 刷新页面菜单保持高亮
 	useEffect(() => {
@@ -91,11 +93,11 @@ const LayoutMenu = (props: any) => {
 			if (!data) return;
 			setMenuList(deepLoopFloat(data));
 			// 存储处理过后的所有面包屑导航栏到 redux 中
-			setBreadcrumbList(findAllBreadcrumb(data));
+			// dispatch(setBreadcrumbList(findAllBreadcrumb(data))); mrak...
 			// 把路由菜单处理成一维数组，存储到 redux 中，做菜单权限判断
 			const dynamicRouter = handleRouter(data);
-			setAuthRouter(dynamicRouter);
-			setMenuListAction(data);
+			dispatch(setAuthRouter(dynamicRouter));
+			// dispatch(setMenuListAction(data)); mark...
 		} finally {
 			setLoading(false);
 		}
@@ -131,6 +133,5 @@ const LayoutMenu = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => state.menu;
-const mapDispatchToProps = { setMenuList, setBreadcrumbList, setAuthRouter };
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutMenu);
+// const mapStateToProps = (state: any) => state.menu;
+// const mapDispatchToProps = { setMenuList, setBreadcrumbList, setAuthRouter };

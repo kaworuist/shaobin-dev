@@ -1,8 +1,10 @@
 import logo from '@/assets/images/logo.png';
+import { useAppSelector } from '@/redux-ts/hook';
 import { connect } from 'react-redux';
 
-const Logo = (props: any) => {
-	const { isCollapse } = props;
+export default (props: any) => {
+	// const { isCollapse } = props;
+	const isCollapse = useAppSelector(state => state.menu.isCollapse)
 	return (
 		<div className="logo-box">
 			<img src={logo} alt="logo" className="logo-img" />
@@ -11,5 +13,4 @@ const Logo = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => state.menu;
-export default connect(mapStateToProps)(Logo);
+// const mapStateToProps = (state: any) => state.menu;

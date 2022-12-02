@@ -6,12 +6,14 @@ import { Login } from '@/api/interface';
 import { loginApi } from '@/api/modules/login';
 import { HOME_URL } from '@/config/config';
 import { connect } from 'react-redux';
-import { setToken, setUserInfo } from '@/redux/modules/global/action';
-import { setTabsList } from '@/redux/modules/tabs/action';
 import { UserOutlined, LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '@/redux-ts/hook';
+import { setToken, setUserInfo } from '@/redux-ts/global.slice';
+import { setTabsList } from '@/redux-ts/tabs.slice';
 
-const LoginForm = (props: any) => {
-	const { setToken, setUserInfo, setTabsList } = props;
+export default (props: any) => {
+	// const { setToken, setUserInfo, setTabsList } = props;
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState<boolean>(false);
@@ -22,9 +24,9 @@ const LoginForm = (props: any) => {
 			setLoading(true);
 			// loginForm.password = md5(loginForm.password);
 			const { data } = await loginApi(loginForm);
-			setToken(data?.accessToken);
-			setUserInfo({ userId: data?.userId, username: loginForm.username });
-			setTabsList([]);
+			dispatch(setToken(data?.accessToken || ''));
+			dispatch(setUserInfo({ userId: data?.userId, username: loginForm.username }));
+			dispatch(setTabsList([]));
 			message.success('登录成功！');
 			navigate(HOME_URL);
 		} finally {
@@ -70,5 +72,5 @@ const LoginForm = (props: any) => {
 	);
 };
 
-const mapDispatchToProps = { setToken, setUserInfo, setTabsList };
-export default connect(null, mapDispatchToProps)(LoginForm);
+// const mapDispatchToProps = { setToken, setUserInfo, setTabsList };
+

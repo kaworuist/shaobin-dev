@@ -4,14 +4,17 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { HOME_URL } from '@/config/config';
 import { connect } from 'react-redux';
-import { setTabsList } from '@/redux/modules/tabs/action';
 import { routerArray } from '@/routers';
 import { searchRoute } from '@/utils/util';
 import MoreButton from './components/MoreButton';
 import './index.less';
+import { useAppDispatch, useAppSelector } from '@/redux-ts/hook';
+import { setTabsList } from '@/redux-ts/tabs.slice';
 
-const LayoutTabs = (props: any) => {
-	const { tabsList, setTabsList } = props;
+export default (props: any) => {
+	// const { tabsList, setTabsList } = props;
+	const dispatch = useAppDispatch()
+	const tabsList = useAppSelector(state => state.tabs.tabsList)
 	const { TabPane } = Tabs;
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
@@ -33,7 +36,7 @@ const LayoutTabs = (props: any) => {
 		if (tabsList.every((item: any) => item.path !== route.path)) {
 			newTabsList.push({ title: route.meta!.title, path: route.path });
 		}
-		setTabsList(newTabsList);
+		dispatch(setTabsList(newTabsList));
 		setActiveValue(pathname);
 	};
 
@@ -83,6 +86,5 @@ const LayoutTabs = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => state.tabs;
-const mapDispatchToProps = { setTabsList };
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutTabs);
+// const mapStateToProps = (state: any) => state.tabs;
+// const mapDispatchToProps = { setTabsList };

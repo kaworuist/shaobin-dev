@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getBrowserLang } from '@/utils/util';
 import { ConfigProvider } from 'antd';
-import { connect } from 'react-redux';
-import { setLanguage } from '@/redux/modules/global/action';
 import { BrowserRouter } from 'react-router-dom';
 import AuthRouter from '@/routers/utils/authRouter';
 import Router from '@/routers/index';
@@ -11,10 +9,15 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import enUS from 'antd/lib/locale/en_US';
 import i18n from 'i18next';
 import 'moment/dist/locale/zh-cn';
+import { useAppDispatch, useAppSelector } from './redux-ts/hook';
+import { setLanguage } from './redux-ts/global.slice';
 
-const App = (props: any) => {
-	const { language, assemblySize, themeConfig, setLanguage } = props;
+export const App = () => {
+	// const { language, assemblySize, themeConfig, setLanguage } = props;
+	const global = useAppSelector(state => state.global)
+	const { language, assemblySize, themeConfig } = global;
 	const { weakOrGray } = themeConfig;
+	const dispatch = useAppDispatch()
 	const [i18nLocale, setI18nLocale] = useState(zhCN);
 
 	// 全局使用主题
@@ -33,7 +36,7 @@ const App = (props: any) => {
 	useEffect(() => {
 		// 全局使用国际化
 		i18n.changeLanguage(language || getBrowserLang());
-		setLanguage(language || getBrowserLang());
+		dispatch(setLanguage(language || getBrowserLang()));
 		setAntdLanguage();
 	}, [language]);
 
@@ -47,7 +50,3 @@ const App = (props: any) => {
 		</BrowserRouter>
 	);
 };
-
-const mapStateToProps = (state: any) => state.global;
-const mapDispatchToProps = { setLanguage };
-export default connect(mapStateToProps, mapDispatchToProps)(App);

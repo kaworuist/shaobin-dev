@@ -2,16 +2,20 @@ import { Drawer, Divider, Switch, message } from 'antd';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { FireOutlined } from '@ant-design/icons';
-import { setWeakOrGray } from '@/redux/modules/global/action';
+import { useAppDispatch, useAppSelector } from '@/redux-ts/hook';
+import { setWeakOrGray } from '@/redux-ts/global.slice';
 
-const Theme = (props: any) => {
+
+export default (props: any) => {
 	const [visible, setVisible] = useState<boolean>(false);
-	const { setWeakOrGray } = props;
-	const { weakOrGray } = props.themeConfig;
+	// const { setWeakOrGray } = props;
+	// const { weakOrGray } = props.themeConfig;
+	const dispatch = useAppDispatch()
+	const weakOrGray = useAppSelector(state => state.global.themeConfig.weakOrGray)
 
 	const onChange = (checked: boolean, theme: string) => {
-		if (checked) return setWeakOrGray(theme);
-		setWeakOrGray('');
+		if (checked) return dispatch(setWeakOrGray(theme));
+		dispatch(setWeakOrGray(''));
 	};
 
 	return (
@@ -68,6 +72,6 @@ const Theme = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => state.global;
-const mapDispatchToProps = { setWeakOrGray };
-export default connect(mapStateToProps, mapDispatchToProps)(Theme);
+// const mapStateToProps = (state: any) => state.global;
+// const mapDispatchToProps = { setWeakOrGray };
+

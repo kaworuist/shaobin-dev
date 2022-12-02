@@ -4,14 +4,18 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { HOME_URL } from '@/config/config';
 import { connect } from 'react-redux';
-import { setToken } from '@/redux/modules/global/action';
+
 import PasswordModal from './PasswordModal';
 import InfoModal from './InfoModal';
 import avatar from '@/assets/images/avatar.png';
+import { useAppDispatch, useAppSelector } from '@/redux-ts/hook';
+import { setToken } from '@/redux-ts/global.slice';
 
-const AvatarIcon = (props: any) => {
-	const { setToken, username } = props;
+export default (props: any) => {
+	// const { setToken, username } = props;
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch()
+	const username = useAppSelector(state => state.global.userInfo.username)
 
 	interface ModalProps {
 		showModal: (params: { name: number }) => void;
@@ -28,7 +32,7 @@ const AvatarIcon = (props: any) => {
 			okText: '确认',
 			cancelText: '取消',
 			onOk: () => {
-				setToken('');
+				dispatch(setToken(''));
 				message.success('退出登录成功！');
 				navigate('/login');
 			},
@@ -77,6 +81,5 @@ const AvatarIcon = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => state.global.userInfo;
-const mapDispatchToProps = { setToken };
-export default connect(mapStateToProps, mapDispatchToProps)(AvatarIcon);
+// const mapStateToProps = (state: any) => state.global.userInfo;
+// const mapDispatchToProps = { setToken };
